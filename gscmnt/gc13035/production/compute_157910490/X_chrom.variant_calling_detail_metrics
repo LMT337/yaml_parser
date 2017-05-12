@@ -1,0 +1,10 @@
+## htsjdk.samtools.metrics.StringHeader
+# picard.vcf.CollectVariantCallingMetrics INPUT=/gscmnt/gc13035/production/compute_157910490/cromwell-executions/UnalignedToBQSRCramAndVCF/a7483f19-fb6e-400e-92af-af4d3c8f020f/call-haplotype_x_call/execution/H_XI-1089.chrX.g.vcf.gz OUTPUT=X_chrom DBSNP=/gscmnt/gc2709/info/production_reference_GRCh38DH/accessory_vcf/ALL.phase3_shapeit_mvncall_integrated_v3plus_nounphased.rsID.genotypes.GRCh38_dbSNP_no_SVs.no_sex_chromosomes.sites_only.wchr.vcf.gz SEQUENCE_DICTIONARY=/gscmnt/gc2709/info/production_reference_GRCh38DH/reference/all_sequences.dict GVCF_INPUT=true    THREAD_COUNT=1 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+## htsjdk.samtools.metrics.StringHeader
+# Started on: Mon May 01 01:20:49 CDT 2017
+
+## METRICS CLASS	picard.vcf.CollectVariantCallingMetrics$VariantCallingDetailMetrics
+SAMPLE_ALIAS	HET_HOMVAR_RATIO	TOTAL_SNPS	NUM_IN_DB_SNP	NOVEL_SNPS	FILTERED_SNPS	PCT_DBSNP	DBSNP_TITV	NOVEL_TITV	TOTAL_INDELS	NOVEL_INDELS	FILTERED_INDELS	PCT_DBSNP_INDELS	NUM_IN_DB_SNP_INDELS	DBSNP_INS_DEL_RATIO	NOVEL_INS_DEL_RATIO	TOTAL_MULTIALLELIC_SNPS	NUM_IN_DB_SNP_MULTIALLELIC	TOTAL_COMPLEX_INDELS	NUM_IN_DB_SNP_COMPLEX_INDELS	SNP_REFERENCE_BIAS	NUM_SINGLETONS
+1089	3.460858	173467	0	173467	0	0	0	1.922928	40687	40687	0	0	0	0	0.95526	66	0	4192	0	0.523001	169762
+
+

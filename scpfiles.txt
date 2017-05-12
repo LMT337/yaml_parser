@@ -1,0 +1,9 @@
+alignment_summary.txt
+verify_bam_id.selfSM
+wgs_metric_summary.txt
+bamutil_stats.txt
+flagstat.out
+insert_size_summary.txt
+mark_dups_metrics.txt
+GC_bias_summary.txt
+all_chrom.variant_calling_detail_metrics

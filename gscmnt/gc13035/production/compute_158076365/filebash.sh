@@ -1,0 +1,9 @@
+scp ltrani@linus283:/gscmnt/gc13035/production/compute_158076365/alignment_summary.txt /Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365
+scp ltrani@linus283:/gscmnt/gc13035/production/compute_158076365/verify_bam_id.selfSM /Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365
+scp ltrani@linus283:/gscmnt/gc13035/production/compute_158076365/wgs_metric_summary.txt /Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365
+scp ltrani@linus283:/gscmnt/gc13035/production/compute_158076365/bamutil_stats.txt /Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365
+scp ltrani@linus283:/gscmnt/gc13035/production/compute_158076365/flagstat.out /Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365
+scp ltrani@linus283:/gscmnt/gc13035/production/compute_158076365/insert_size_summary.txt /Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365
+scp ltrani@linus283:/gscmnt/gc13035/production/compute_158076365/mark_dups_metrics.txt /Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365
+scp ltrani@linus283:/gscmnt/gc13035/production/compute_158076365/GC_bias_summary.txt /Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365
+scp ltrani@linus283:/gscmnt/gc13035/production/compute_158076365/all_chrom.variant_calling_detail_metrics /Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365
