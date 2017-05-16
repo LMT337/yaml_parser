@@ -307,6 +307,7 @@ with open(infile) as csvfile:
                 process_bamutil_stats(qc_file)
 
         yaml.dump(yaml_out, out, default_flow_style=False)
+        out.close()
 
 
 exit()
