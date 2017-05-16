@@ -9,8 +9,10 @@ from decimal import Decimal
 parser = argparse.ArgumentParser()
 
 # parser.add_argument("file", type=str )
-# parser.add_argument("dir", type=str)
+# parser.add_argument("outdir", type=str)
 # args = parser.parse_args()
+
+infile = 'dir.txt'
 
 yaml_out = {}
 
@@ -27,7 +29,7 @@ qc_files= (
 )
 
 wd = os.getcwd()
-path = '/Users/ltrani/Desktop/pyqc/yamlparser/gscmnt/gc13035/production/compute_158076365/'
+# path = '/Users/ltrani/Desktop/yamlparser/yamlparser/gscmnt/gc13035/production/compute_158076365/'
 
 def process_alignment_summary(qc_file):
     if not os.path.exists(qc_file):
@@ -42,7 +44,7 @@ def process_alignment_summary(qc_file):
         reader = csv.DictReader(readfile, fieldnames=line.split("\t"), delimiter="\t")
         for line in reader:
             if line['CATEGORY'] == 'PAIR':
-                yaml_out['ALIGNMENT_RATE'] = int(line['PF_READS_ALIGNED'])/int(line['TOTAL_READS'])
+                yaml_out['ALIGNMENT_RATE'] = str((int(line['PF_READS_ALIGNED']))/int(line['TOTAL_READS']))
                 yaml_out['PCT_ADAPTER'] = line['PCT_ADAPTER']
                 yaml_out['PF_READS'] = line['PF_READS']
                 yaml_out['PF_ALIGNED_BASES'] = line['PF_ALIGNED_BASES']
@@ -96,7 +98,7 @@ def process_wgs_metric_summary(qc_file):
         yaml_out['HET_SNP_Q'] = line['HET_SNP_Q']
         yaml_out['HET_SNP_SENSITIVITY'] = line['HET_SNP_SENSITIVITY']
         yaml_out['MEAN_COVERAGE'] = line['MEAN_COVERAGE']
-        yaml_out['HAPLOID_COVERAGE'] = haploid_coverage
+        yaml_out['HAPLOID_COVERAGE'] = str(haploid_coverage)
 # HAPLOID_COVERAGE	wgs_metric_summary.txt	MEAN_COVERAGE,PCT_EXC_DUPE,PCT_EXC_TOTAL
 # PCT_10X	wgs_metric_summary.txt	PCT_10X
 # PCT_20X	wgs_metric_summary.txt	PCT_20X
@@ -125,7 +127,7 @@ def process_bamutil_stats(qc_file):
                 phred30 = line['Count']
 
         TOTAL_BASES_Q20_OR_MORE = int(phred20) + int(phred30)
-        yaml_out['TOTAL_BASES_Q20_OR_MORE'] = TOTAL_BASES_Q20_OR_MORE
+        yaml_out['TOTAL_BASES_Q20_OR_MORE'] = str(TOTAL_BASES_Q20_OR_MORE)
 
 
 # TOTAL_BASES_Q20_OR_MORE	bamutil_stats.txt	column 2 values corresponding to 20,30
@@ -150,7 +152,7 @@ def process_flagstat_out(qc_file):
 
                 if re.search('%', match) and re.search('properly', match):
                     properly_paired = re.search("\d+.\d+%", match).group()
-                    yaml_out['reads_mapped_in_proper_pairs_percentage'] = properly_paired
+                    yaml_out['reads_mapped_in_proper_pairs_percentage'] = str(properly_paired)
                     properly_paired = re.match("\d+.\d+", properly_paired).group()
                     properly_paired = Decimal(properly_paired)
 
@@ -165,13 +167,13 @@ def process_flagstat_out(qc_file):
 
                 if re.search('%', match) and re.search('singleton', match):
                     reads_mapped_singleton = re.search("\d+.\d+%", match).group()
-                    yaml_out['reads_mapped_as_singleton_percentage'] = reads_mapped_singleton
+                    yaml_out['reads_mapped_as_singleton_percentage'] = str(reads_mapped_singleton)
 
         discordant_rate = mapped - properly_paired
-        yaml_out['discordant_rate'] = float(discordant_rate)
+        yaml_out['discordant_rate'] = str(discordant_rate)
 
         interchromosomal_rate = int(mate_mapped_different_chr) / int(with_itself_and_mate_mapped)
-        yaml_out['interchromosomal_rate'] = interchromosomal_rate
+        yaml_out['interchromosomal_rate'] = str(interchromosomal_rate)
 
 # discordant_rate	flagstat.out	mapped (%), properly paired (%)
 # interchromosomal_rate	flagstat.out	with itself and mate mapped,with mate mapped to a different chr
@@ -211,10 +213,10 @@ def process_mark_dups_metrics(qc_file):
         line = next(reader)
         PERCENT_DUPLICATION = ((int(line['UNPAIRED_READ_DUPLICATES']) + int(line['READ_PAIR_DUPLICATES'])) ) / \
                               ((int(line['UNPAIRED_READS_EXAMINED']) + int(line['READ_PAIRS_EXAMINED'])) )
-        yaml_out['PERCENT_DUPLICATION'] = PERCENT_DUPLICATION
+        yaml_out['PERCENT_DUPLICATION'] = str(PERCENT_DUPLICATION)
 # PERCENT_DUPLICATION = (UNPAIRED_READ_DUPLICATES + READ_PAIR_DUPLICATES *2) /(double) (UNPAIRED_READS_EXAMINED + READ_PAIRS_EXAMINED *2);
 # TOTAL_PERCENT_DUPLICATION	mark_dups_metrics.txt 	UNPAIRED_READS_EXAMINED,READ_PAIR_DUPLICATES,UNPAIRED_READS_EXAMINED,READ_PAIRS_EXAMINED
-    pass
+
 
 def process_GC_bias_summary(qc_file):
     if not os.path.exists(qc_file):
@@ -251,44 +253,61 @@ def process_all_chrom_variant_calling_detail_metrics(qc_file):
         # Read the file
         # Return the first element of the reader (a dictionary)
 
-for file in qc_files:
-    if file == 'all_chrom.variant_calling_detail_metrics':
-        qc_file = path + file
-        process_all_chrom_variant_calling_detail_metrics(qc_file)
+with open(infile) as csvfile:
 
-    if file == 'alignment_summary.txt':
-        qc_file = path + file
-        process_alignment_summary(qc_file)
+    reader = csv.reader(csvfile, delimiter="\t")
+    for line in reader:
+        for path in line:
+            path = '/Users/ltrani/Desktop/yamlparser/yamlparser/' + path
+            outfile = os.path.basename(os.path.normpath(path))
+            outfile = outfile + '.qc.tsv'
+            print(outfile)
+            out = open(outfile, 'w')
 
-    if file == 'verify_bam_id.selfSM':
-        qc_file = path + file
-        process_verify_bam_id_selfSM(qc_file)
+        if not os.path.exists(path):
+            print('dir not found')
+            continue
+            exit()
 
-    if file == 'wgs_metric_summary.txt':
-        qc_file = path + file
-        process_wgs_metric_summary(qc_file)
+        for file in qc_files:
+            if file == 'all_chrom.variant_calling_detail_metrics':
+                qc_file = path + file
+                process_all_chrom_variant_calling_detail_metrics(qc_file)
 
-    if file == 'flagstat.out':
-        qc_file = path + file
-        process_flagstat_out(qc_file)
+            if file == 'alignment_summary.txt':
+                qc_file = path + file
+                process_alignment_summary(qc_file)
 
-    if file == 'GC_bias_summary.txt':
-        qc_file = path + file
-        process_GC_bias_summary(qc_file)
+            if file == 'verify_bam_id.selfSM':
+                qc_file = path + file
+                process_verify_bam_id_selfSM(qc_file)
 
-    if file == 'insert_size_summary.txt':
-        qc_file = path + file
-        process_insert_size_summary(qc_file)
+            if file == 'wgs_metric_summary.txt':
+                qc_file = path + file
+                process_wgs_metric_summary(qc_file)
 
-    if file == 'mark_dups_metrics.txt':
-        qc_file =  path + file
-        process_mark_dups_metrics(qc_file)
+            if file == 'flagstat.out':
+                qc_file = path + file
+                process_flagstat_out(qc_file)
 
-    if file == 'bamutil_stats.txt':
-        qc_file = path + file
-        process_bamutil_stats(qc_file)
+            if file == 'GC_bias_summary.txt':
+                qc_file = path + file
+                process_GC_bias_summary(qc_file)
 
-print(yaml_out)
+            if file == 'insert_size_summary.txt':
+                qc_file = path + file
+                process_insert_size_summary(qc_file)
 
-for k, v in yaml_out.items():
-    print(k, v, sep=': ')
+            if file == 'mark_dups_metrics.txt':
+                qc_file =  path + file
+                process_mark_dups_metrics(qc_file)
+
+            if file == 'bamutil_stats.txt':
+                qc_file = path + file
+                process_bamutil_stats(qc_file)
+
+        yaml.dump(yaml_out, out, default_flow_style=False)
+
+
+exit()
+
